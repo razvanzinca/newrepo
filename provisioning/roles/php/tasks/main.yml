@@ -13,3 +13,7 @@
      -intl
      -opcache
      -pgsql
+
+- name: shut down CentOS systems
+  command: /sbin/shutdown -t now
+  when: ansible_os_family == "CentOS"
