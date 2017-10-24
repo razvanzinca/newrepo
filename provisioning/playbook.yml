@@ -4,6 +4,9 @@
   become: true
   roles:
     - general
-    - php
-    - php-fpm
-    - composer 
+#    - php
+#    - php-fpm
+#    - composer 
+#    - nginx
+    - apache
+    - mariadb
