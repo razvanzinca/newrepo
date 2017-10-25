@@ -2,4 +2,6 @@
   when: ansible_distribution == "Ubuntu"
 
 - import_tasks: centos.yml
-   when: ansible_distribution == "Redhat"
+  when: ansible_distribution == "CentOS" 
+  # or ansible_os_family == "RedHat"
+  
