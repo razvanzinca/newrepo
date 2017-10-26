@@ -1,0 +1,7 @@
+---
+  - hosts: centos
+    become: true
+
+    tasks: 
+  # - name: Copy file to VM
+    - copy: src=/home/alexandruogorodnic/Desktop/vagrant/newrepo/provisioning/index.php dest=/var/www/html/index.php
