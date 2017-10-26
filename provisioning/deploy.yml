@@ -1,0 +1,6 @@
+---
+
+- hosts: test-servers
+  tasks:
+   - name: install Hello World PHP script
+     copy: src=index.php dest=/var/www/html/index.php mode=0664
