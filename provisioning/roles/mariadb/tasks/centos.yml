@@ -1,0 +1,28 @@
+# ---
+# # This playbook will install mysql and create db user and give permissions.
+
+# - name: Install Mysql package
+#   yum: name={{ item }} state=installed
+#   with_items:
+#    - mysql-server
+#    - MySQL-python
+#    - libselinux-python
+#    - libsemanage-python
+
+# - name: Start the MySQL service
+#   action: service name=mysql state=started
+
+- name: Install MySQL 5.7 repo
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+
+- name: Install MySQL 5.7
+  yum: name={{ item }} state=present update_cache=yes
+  with_items:
+    - mysql-community-server
+    - mysql-community-client
+    
+
+
+- name: Start MySQL Server and enable it
+  systemd: name=mysqld state=started enabled=yes
+  

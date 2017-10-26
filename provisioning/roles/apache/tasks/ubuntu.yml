@@ -1,6 +1,11 @@
-- name: Install Apache
+- name: Install Apache on Ubuntu VM
   apt: name={{ item }} state=installed update_cache=yes
   with_items:
       - apache2
       - libapache2-mod-php5
 
+<<<<<<< HEAD
+=======
+- name: install Hello World PHP script on Ubuntu VM
+  copy: src=index.php dest=/var/www/html/index.php mode=0664
+>>>>>>> adba1c942c529d398bbd700af56b24d41a2ac169

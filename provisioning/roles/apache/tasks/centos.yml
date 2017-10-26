@@ -1,0 +1,12 @@
+---
+
+- name: Install httpd and php modules on CentOS VM
+  yum: name={{ item }} state=present update_cache=yes
+  with_items:
+    - httpd
+    - php
+    - php-mysql
+
+
+- name: start the httpd service
+  systemd: name=httpd state=started enabled=yes

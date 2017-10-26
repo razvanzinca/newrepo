@@ -1,6 +1,15 @@
 ---
+<<<<<<< HEAD
 
 - hosts: test-servers
   tasks:
    - name: install Hello World PHP script
      copy: src=index.php dest=/var/www/html/index.php mode=0664
+=======
+  - hosts: centos
+    become: true
+
+    tasks: 
+  # - name: Copy file to VM
+    - copy: src=/home/alexandruogorodnic/Desktop/vagrant/newrepo/provisioning/index.php dest=/var/www/html/index.php
+>>>>>>> adba1c942c529d398bbd700af56b24d41a2ac169
