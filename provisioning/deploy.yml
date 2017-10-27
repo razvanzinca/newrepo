@@ -32,6 +32,18 @@
 
 - hosts: test-servers
   become: true
+
+  tasks: 
+  - name: Copy file to VM
+    copy: src=index.php dest=/var/www/html/ogorodnic.com/index.php mode=0664
+
+    notify:
+    - restart httpd
+
+    handlers:
+    - name: restart httpd
+      service: name=httpd  state=restarted
+
   tasks:
    - name: Add virtual host
      template: src=virtual-host.dev.j2 dest=/etc/apache2/sites-enabled/{{ var }}.conf owner=root group=root mode=0644

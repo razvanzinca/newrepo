@@ -22,7 +22,6 @@
     - mysql-community-client
     
 
-
 - name: Start MySQL Server and enable it
   systemd: name=mysqld state=started enabled=yes
   
