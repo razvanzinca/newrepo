@@ -2,11 +2,24 @@
 - hosts: test-servers
   become: true
   tasks:
-   - name: install Hello World PHP script
-     copy: src=index.php dest=/var/www/html/index.php mode=0664
+   - name: Make directory
+     file: path=/var/www/{{ var }}/web state=directory mode=0775
 
-- hosts: centos
+- hosts: test-servers
   become: true
+  tasks:
+   - name: install Hello World PHP script
+     copy: src=index.php dest=/var/www/{{ var }}/web/index.php mode=0644
+
+#- hosts: centos
+#  become: true
+#  tasks: 
+#   - name: Copy file to VM
+#     copy: src=index.php dest=/var/www/{{ var }}/web/index.php mode=0644
+
+- hosts: test-servers
+  become: true
+
   tasks: 
   - name: Copy file to VM
     copy: src=index.php dest=/var/www/html/ogorodnic.com/index.php mode=0664
@@ -17,4 +30,9 @@
     handlers:
     - name: restart httpd
       service: name=httpd  state=restarted
+
+  tasks:
+   - name: Add virtual host
+     template: src=virtual-host.dev.j2 dest=/etc/apache2/sites-enabled/{{ var }}.conf owner=root group=root mode=0644
+
 
