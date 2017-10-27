@@ -8,6 +8,13 @@
 - hosts: centos
   become: true
   tasks: 
-  # - name: Copy file to VM
-    - copy: src=index.php dest=/var/www/html/index.php
+  - name: Copy file to VM
+    copy: src=index.php dest=/var/www/html/ogorodnic.com/index.php mode=0664
+
+    notify:
+    - restart httpd
+
+    handlers:
+    - name: restart httpd
+      service: name=httpd  state=restarted
 

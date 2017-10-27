@@ -1,12 +1,45 @@
 ---
 
+# vars:
+#   apache_vhosts_enabled:
+#   - documentrootdir: "ogorodnic.com"
+        
 - name: Install httpd and php modules on CentOS VM
   yum: name={{ item }} state=present update_cache=yes
   with_items:
-    - httpd
-    - php
-    - php-mysql
+  - httpd
+  - php
+  - php-mysql
 
 
 - name: start the httpd service
-  systemd: name=httpd state=started enabled=yes
+  service: name=httpd state=started enabled=yes
+
+- name: Create sites.d directory
+  file: path=/etc/httpd/conf.d/sites.d state=directory owner=root  group=root mode=0755
+
+- name: Add sites.d Include to httpd.conf
+  lineinfile: dest=/etc/httpd/conf/httpd.conf  state=present  line='Include conf.d/sites.d/*.conf'
+
+  notify:
+    - restart httpd
+
+- name: Create a VirtualHost file for enabled VirtualHost
+  copy: src=centos_vhost.conf  dest=/etc/httpd/conf.d/sites.d/ogorodnic.com.conf  owner=root  group=root  mode=0644
+  # dest=/etc/httpd/conf.d/sites.d/{{ item.documentrootdir }}.conf
+  # with_items: apache_vhosts_enabled
+
+  notify:
+    - restart httpd
+
+- name: Create web directories for enabled VirtualHost
+  file: path=/var/www/html/ogorodnic.com  state=directory  owner=apache  group=apache  mode=0755
+  # path=/var/www/html/{{ item.documentrootdir }}
+  # with_items: apache_vhosts_enabled
+
+  notify:
+  - restart httpd
+
+  handlers:
+  - name: restart httpd
+    service: name=httpd  state=restarted
