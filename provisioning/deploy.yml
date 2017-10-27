@@ -8,8 +8,21 @@
 - hosts: test-servers
   become: true
   tasks:
+   - name: Make directory
+     file: path=/var/www/{{ newvar }}/web state=directory mode=0775
+
+- hosts: test-servers
+  become: true
+  tasks:
    - name: install Hello World PHP script
      copy: src=index.php dest=/var/www/{{ var }}/web/index.php mode=0644
+
+- hosts: test-servers
+  become: true
+  tasks:
+   - name: install Hello World PHP script
+     copy: src=index.html dest=/var/www/{{ newvar }}/web/index.php mode=0644
+
 
 #- hosts: centos
 #  become: true
@@ -22,4 +35,10 @@
   tasks:
    - name: Add virtual host
      template: src=virtual-host.dev.j2 dest=/etc/apache2/sites-enabled/{{ var }}.conf owner=root group=root mode=0644
+
+- hosts: test-servers
+  become: true
+  tasks:
+   - name: Add virtual host
+     template: src=new-template.j2 dest=/etc/apache2/sites-enabled/{{ newvar }}.conf owner=root group=root mode=0644
 
