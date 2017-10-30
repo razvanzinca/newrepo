@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 		symfony.vm.provider "virtualbox" do |v|
 			v.memory = 1024
 			v.cpus = 2
-			v.name = "Ubuntu LAMP"
+			v.name = "Ubuntu"
 		end
 	end
 
@@ -38,8 +38,24 @@ Vagrant.configure(2) do |config|
 		centos.vm.provider "virtualbox" do |v|
 			v.memory = 1024
 			v.cpus = 2
-			v.name = "Centos LAMP"
+			v.name = "Centos"
 		end
+	end 
+       
+        config.vm.define "jenkins" do |jenkins| 
+		jenkins.vm.box = "ubuntu/xenial64"
+		jenkins.vm.hostname = "jenkins"
+		jenkins.vm.network :private_network, ip: "192.168.33.153"
+		jenkins.vm.provision :ansible do |ansible|
+                        ansible.playbook = "provisioning/playbook.yml"
+                end
+
+                jenkins.vm.provider "virtualbox" do |v|
+                        v.memory = 1024
+                        v.cpus = 2
+			v.name = "Jenkins"
+                end
+
 	end
 
 end

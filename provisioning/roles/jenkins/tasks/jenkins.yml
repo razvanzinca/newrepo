@@ -1,0 +1,39 @@
+- name: Update the software package repository
+  yum:
+  name: '*'
+  update_cache: yes
+
+- name: Install dependencies
+  package: 
+  name: "{{ item }}"
+  state: latest
+  with_items:
+   - java-1.8.0-openjdk
+   - git
+   - texlive-latex
+   - wget
+
+- name: Download jenkins repo
+  command: wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+
+- name: Import Jenkins CI key
+  rpm_key: 
+  key: deb https://pkg.jenkins.io/debian binary/  
+  state: present
+
+- name: Install Jenkins
+  package: 
+  name: "{{ item }}"
+  state: latest
+  with_items: 
+   - jenkins
+
+- name: Allow port 8080
+  shell: iptables -I INPUT -p tcp --dport 8080 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+- name: Start the server
+  service:
+  name: jenkins
+  state: started
+   - wait_for:
+  port: 8080
