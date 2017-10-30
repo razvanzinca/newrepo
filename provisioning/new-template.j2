@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerName {{ newvar }}
+    ServerAlias www.{{ newvar }}
+
+    DocumentRoot /var/www/{{ newvar }}/web
+    <Directory /var/www/{{ newvar }}/web>
+        AllowOverride All
+        Order Allow,Deny
+        Allow from All
+    </Directory>
+
+    # uncomment the following lines if you install assets as symlinks
+    # or run into problems when compiling LESS/Sass/CoffeeScript assets
+    # <Directory /var/www/project>
+    #     Options FollowSymlinks
+    # </Directory>
+
+    ErrorLog /var/log/apache2/{{ newvar | replace(".", "_") }}_error.log
+    CustomLog /var/log/apache2/{{ newvar | replace(".", "_") }}_access.log combined
+</VirtualHost>
