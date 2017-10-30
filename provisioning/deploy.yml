@@ -5,36 +5,36 @@
    - name: Make directory
      file: path=/var/www/{{ var }}/web state=directory mode=0775
 
+   - name: install Hello World PHP script
+     copy: src=index.php dest=/var/www/{{ var }}/web/index.php mode=0644
+
+   - name: Add virtual host
+     template: src=virtual-host.dev.j2 dest=/etc/apache2/sites-enabled/{{ var }}.conf owner=root group=root mode=0644
+
 - hosts: test-servers
   become: true
   tasks:
    - name: Make directory
      file: path=/var/www/{{ newvar }}/web state=directory mode=0775
 
-- hosts: test-servers
-  become: true
-  tasks:
    - name: install Hello World PHP script
-     copy: src=index.php dest=/var/www/{{ var }}/web/index.php mode=0644
+     copy: src=index.html dest=/var/www/{{ newvar }}/web/index.php mode=0644
 
+   - name: Add virtual host
+     template: src=new-template.j2 dest=/etc/apache2/sites-enabled/{{ newvar }}.conf owner=root group=root mode=0644
 
-
+   
 #--------CentOS-----------#
-
-# - hosts: test-servers
-
-#   become: true
-#   tasks:
-#    - name: install Hello World PHP script
-#      copy: src=index.html dest=/var/www/{{ newvar }}/web/index.php mode=0644
-
-
 - hosts: centos
   become: true
 
   tasks: 
   - name: Copy file to VM
-    copy: src=index.php dest=/var/www/html/ogorodnic.com/index.php mode=0664
+    copy: src=index.php dest=/var/www/html/{{ ogo1 }}/index.php mode=0664
+
+
+  - name: Copy file to VM
+    copy: src=index.php dest=/var/www/html/{{ ogo2 }}/index.php mode=0664
 
     notify:
     - restart httpd
@@ -42,14 +42,3 @@
     handlers:
     - name: restart httpd
       service: name=httpd  state=restarted
-
-  # tasks:
-  #  - name: Add virtual host
-  #    template: src=virtual-host.dev.j2 dest=/etc/apache2/sites-enabled/{{ var }}.conf owner=root group=root mode=0644
-
-# - hosts: test-servers
-#   become: true
-#   tasks:
-#    - name: Add virtual host
-#      template: src=new-template.j2 dest=/etc/apache2/sites-enabled/{{ newvar }}.conf owner=root group=root mode=0644
-
