@@ -22,8 +22,8 @@
 - name: Ensure that file are included to httpd.conf
   lineinfile: dest=/etc/httpd/conf/httpd.conf  state=present  line='Include conf.d/*.conf'
 
-#  notify:
-#    - restart httpd
+  notify:
+    - restart httpd
 
 #------- copy virtual-host config file to vm-box --------#
 
@@ -43,8 +43,8 @@
   file: path=/var/log/httpd/{{ ogo2 }} state=directory owner=apache  group=apache mode=0755
 
 
-#  notify:
-#    - restart httpd
+  notify:
+    - restart httpd
 
 - name: Create web directories for ogorodnic1 VirtualHost
   file: path=/var/www/html/{{ ogo1 }}  state=directory  owner=apache  group=apache  mode=0755
@@ -53,9 +53,9 @@
   file: path=/var/www/html/{{ ogo2 }}  state=directory  owner=apache  group=apache  mode=0755
 
 
-#  notify:
-#  - restart httpd
+  notify:
+  - restart httpd
 
-#  handlers:
-#  - name: restart httpd
-#    service: name=httpd  state=restarted
+  handlers:
+  - name: restart httpd
+    service: name=httpd  state=restarted
