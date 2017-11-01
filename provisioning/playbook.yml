@@ -5,4 +5,5 @@
   roles:
     - apache
     - mariadb
-#    - jenkins
+    # - jenkins
+    # - { role: jenkins, tags: jenkins }
