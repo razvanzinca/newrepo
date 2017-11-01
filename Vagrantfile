@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
 			v.name = "Centos"
 		end
 	end 
-       
+###Jenkins Server###       
         config.vm.define "jenkins" do |jenkins| 
 		jenkins.vm.box = "ubuntu/xenial64"
 		jenkins.vm.hostname = "jenkins"

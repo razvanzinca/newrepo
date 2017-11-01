@@ -1,9 +1,25 @@
 ---
-
-- hosts: all
+- hosts: test-servers centos
   become: true
   roles:
     - apache
     - mariadb
     # - jenkins
     # - { role: jenkins, tags: jenkins }
+
+- hosts: jenkins
+  # This is very important as otherwise a setup task will be executed
+  # to gather the server facts and this will fail as there is no Python2 yet
+  gather_facts: false
+  become: true 
+  
+  tasks: 
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- hosts: jenkins
+  become: true
+  tags: [jenkins]
+  roles:
+    - jenkins
+
