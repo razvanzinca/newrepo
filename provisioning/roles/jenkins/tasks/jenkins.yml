@@ -33,4 +33,7 @@
   apt: name=jenkins state=present
   become: true
 
+- name: Install ansible
+  apt: name=ansible state=present
+  become: true
 
