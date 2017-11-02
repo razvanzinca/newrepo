@@ -33,18 +33,18 @@
   apt: name=jenkins state=present
   become: true
 
+- name: Add Ansible repository
+  apt_repository: repo='ppa:ansible/ansible' update_cache=yes
+
 - name: Install ansible
-  apt: name=ansible state=present
+  apt: name=ansible 
+  state: latest
   become: true
 
-# - name: Put private_key to jenkins-box
-#   copy: src={{ ssh_key }} dest=/var/lib/jenkins/.ssh/jenkins_private_key mode=0600
-#   become: true
-
 - name: Add Jenkins private key
-  copy:
-    content: "{{ ssh_key }}"
-    dest: /var/lib/jenkins/.ssh/jenkins_private_key
+  copy: 
+    content: "{{ private_key }}"
+    dest: /var/lib/jenkins/.ssh/jenkins_private_key 
     owner: jenkins
     group: jenkins
     mode: 0600
