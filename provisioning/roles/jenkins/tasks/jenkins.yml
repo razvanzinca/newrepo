@@ -37,3 +37,17 @@
   apt: name=ansible state=present
   become: true
 
+# - name: Put private_key to jenkins-box
+#   copy: src={{ ssh_key }} dest=/var/lib/jenkins/.ssh/jenkins_private_key mode=0600
+#   become: true
+
+- name: Add Jenkins private key
+  copy:
+    content: "{{ ssh_key }}"
+    dest: /var/lib/jenkins/.ssh/jenkins_private_key
+    owner: jenkins
+    group: jenkins
+    mode: 0600
+  no_log: true
+  become: true
+
