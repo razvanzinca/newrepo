@@ -46,6 +46,7 @@ Vagrant.configure(2) do |config|
 		jenkins.vm.box = "ubuntu/xenial64"
 		jenkins.vm.hostname = "jenkins"
 		jenkins.vm.network :private_network, ip: "192.168.33.153"
+		# jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
 		jenkins.vm.provision :ansible do |ansible|
                         ansible.playbook = "provisioning/playbook.yml"
                 end
