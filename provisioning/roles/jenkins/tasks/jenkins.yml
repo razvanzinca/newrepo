@@ -51,3 +51,23 @@
   no_log: true
   become: true
 
+- name: Add host to inventory file
+  copy:
+    content: "{{ config_hosts }}"
+    dest: /etc/ansible/hosts1
+    owner: jenkins
+    group: jenkins
+    mode: 0600
+  no_log: true
+  become: true
+
+
+- name: Add config file for ssh
+  copy:
+    content: "{{ config_ssh }}"
+    dest: /var/lib/jenkins/.ssh/config1
+    owner: jenkins
+    group: jenkins
+    mode: 0600
+  no_log: true
+  become: true
