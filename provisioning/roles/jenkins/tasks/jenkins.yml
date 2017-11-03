@@ -54,7 +54,7 @@
 - name: Add host to inventory file
   copy:
     content: "{{ config_hosts }}"
-    dest: /etc/ansible/hosts1
+    dest: /etc/ansible/hosts
     owner: jenkins
     group: jenkins
     mode: 0600
@@ -65,7 +65,7 @@
 - name: Add config file for ssh
   copy:
     content: "{{ config_ssh }}"
-    dest: /var/lib/jenkins/.ssh/config1
+    dest: /var/lib/jenkins/.ssh/config
     owner: jenkins
     group: jenkins
     mode: 0600
